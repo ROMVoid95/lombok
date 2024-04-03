@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.ConfigurationKeys;
 import lombok.Data;
+import lombok.EliteObject;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -571,7 +572,7 @@ public class HandlerUtil {
 			Getter.class.getName(), Setter.class.getName(), With.class.getName(), "lombok.experimental.Wither",
 			ToString.class.getName(), EqualsAndHashCode.class.getName(), 
 			RequiredArgsConstructor.class.getName(), AllArgsConstructor.class.getName(), NoArgsConstructor.class.getName(), 
-			Data.class.getName(), Value.class.getName(), "lombok.experimental.Value", FieldDefaults.class.getName()));
+			Data.class.getName(), Value.class.getName(), EliteObject.class.getName(), "lombok.experimental.Value", FieldDefaults.class.getName()));
 	
 	/**
 	 * Given the name of a field, return the 'base name' of that field. For example, {@code fFoobar} becomes {@code foobar} if {@code f} is in the prefix list.

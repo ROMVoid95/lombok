@@ -70,6 +70,7 @@ import lombok.core.TypeLibrary;
 import lombok.core.configuration.CheckerFrameworkVersion;
 import lombok.eclipse.EclipseNode;
 import lombok.eclipse.handlers.HandleBuilder.BuilderJob;
+import lombok.eclipse.handlers.HandleEliteCreator.EliteCreatorJob;
 
 public class EclipseSingularsRecipes {
 	public interface TypeReferenceMaker {
@@ -275,6 +276,22 @@ public class EclipseSingularsRecipes {
 			
 			generateMethods(job.checkerFramework, data, deprecate, job.builderType, job.oldFluent, returnTypeMaker, returnStatementMaker, job.accessInners);
 		}
+		
+	      public void generateMethods(final EliteCreatorJob job, SingularData data, boolean deprecate) {
+	            TypeReferenceMaker returnTypeMaker = new TypeReferenceMaker() {
+	                @Override public TypeReference make() {
+	                    return cloneSelfType(job.builderType);
+	                }
+	            };
+	            
+	            StatementMaker returnStatementMaker = new StatementMaker() {
+	                @Override public ReturnStatement make() {
+	                    return new ReturnStatement(new ThisReference(0, 0), 0, 0);
+	                }
+	            };
+	            
+	            generateMethods(job.checkerFramework, data, deprecate, job.builderType, true, returnTypeMaker, returnStatementMaker, job.accessInners);
+	        }
 		
 		/**
 		 * Generates the singular, plural, and clear methods for the given {@link SingularData}.

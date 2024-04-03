@@ -114,6 +114,20 @@ public class HandleEqualsAndHashCode extends JavacAnnotationHandler<EqualsAndHas
 		generateMethods(typeNode, source, members, null, false, false, access, List.<JCAnnotation>nil());
 	}
 	
+	   public void generateEqualsAndHashCodeForType(JavacNode typeNode, JavacNode source, Boolean callSuper) {
+	        if (hasAnnotation(EqualsAndHashCode.class, typeNode)) {
+	            //The annotation will make it happen, so we can skip it.
+	            return;
+	        }
+	        
+	        Boolean doNotUseGettersConfiguration = typeNode.getAst().readConfiguration(ConfigurationKeys.EQUALS_AND_HASH_CODE_DO_NOT_USE_GETTERS);
+	        FieldAccess access = doNotUseGettersConfiguration == null || !doNotUseGettersConfiguration ? FieldAccess.GETTER : FieldAccess.PREFER_FIELD;
+	        
+	        java.util.List<Included<JavacNode, EqualsAndHashCode.Include>> members = InclusionExclusionUtils.handleEqualsAndHashCodeMarking(typeNode, null, null);
+	        
+	        generateMethods(typeNode, source, members, callSuper, false, false, access, List.<JCAnnotation>nil());
+	    }
+	
 	public void generateMethods(JavacNode typeNode, JavacNode source, java.util.List<Included<JavacNode, EqualsAndHashCode.Include>> members,
 		Boolean callSuper, boolean whineIfExists, boolean cacheHashCode, FieldAccess fieldAccess, List<JCAnnotation> onParam) {
 		

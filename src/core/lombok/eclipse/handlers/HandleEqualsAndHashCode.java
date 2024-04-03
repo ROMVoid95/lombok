@@ -142,6 +142,16 @@ public class HandleEqualsAndHashCode extends EclipseAnnotationHandler<EqualsAndH
 		generateMethods(typeNode, errorNode, members, null, false, false, access, new ArrayList<Annotation>());
 	}
 	
+	public void generateEqualsAndHashCodeForType(EclipseNode typeNode, EclipseNode errorNode, Boolean callSuper)
+	{
+	       List<Included<EclipseNode, EqualsAndHashCode.Include>> members = InclusionExclusionUtils.handleEqualsAndHashCodeMarking(typeNode, null, null);
+	        
+	        Boolean doNotUseGettersConfiguration = typeNode.getAst().readConfiguration(ConfigurationKeys.EQUALS_AND_HASH_CODE_DO_NOT_USE_GETTERS);
+	        FieldAccess access = doNotUseGettersConfiguration == null || !doNotUseGettersConfiguration ? FieldAccess.GETTER : FieldAccess.PREFER_FIELD;
+	        
+	        generateMethods(typeNode, errorNode, members, callSuper, false, false, access, new ArrayList<Annotation>());
+	}
+	
 	public void generateMethods(EclipseNode typeNode, EclipseNode errorNode, List<Included<EclipseNode, EqualsAndHashCode.Include>> members,
 		Boolean callSuper, boolean whineIfExists, boolean cacheHashCode, FieldAccess fieldAccess, List<Annotation> onParam) {
 		

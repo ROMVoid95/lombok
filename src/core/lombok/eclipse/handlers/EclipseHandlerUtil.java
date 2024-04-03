@@ -224,6 +224,7 @@ public class EclipseHandlerUtil {
 	}
 	
 	public static CheckerFrameworkVersion getCheckerFrameworkVersion(EclipseNode node) {
+	    if(node == null) { return CheckerFrameworkVersion.NONE; }
 		CheckerFrameworkVersion cfv = node.getAst().readConfiguration(ConfigurationKeys.CHECKER_FRAMEWORK);
 		return cfv != null ? cfv : CheckerFrameworkVersion.NONE;
 	}
